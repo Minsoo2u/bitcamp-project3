@@ -1,0 +1,38 @@
+Index: app/src/main/java/bitcamp/project3/App.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package bitcamp.project3;\n\nimport bitcamp.project3.util.Print;\n\npublic class App {\n\n  static String[] mainMenus = {\"대출 관리\", \"도서 관리\", \"사용자 관리\", \"종료\"};\n  static String menuTitle = \"메인 메뉴\";\n\n  public static void main(String[] args) {\n    Print.printProgramTitle();\n    Print.printTitle(menuTitle);\n    Print.printMenus(mainMenus);\n\n\n  }\n\n\n}// Class HomePage END\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/bitcamp/project3/App.java b/app/src/main/java/bitcamp/project3/App.java
+--- a/app/src/main/java/bitcamp/project3/App.java	
++++ b/app/src/main/java/bitcamp/project3/App.java	
+@@ -1,17 +1,25 @@
+ package bitcamp.project3;
+ 
+ import bitcamp.project3.util.Print;
++import bitcamp.project3.util.PromptLibrary;
++import java.util.Stack;
+ 
+ public class App {
+ 
+-  static String[] mainMenus = {"대출 관리", "도서 관리", "사용자 관리", "종료"};
+-  static String menuTitle = "메인 메뉴";
++  String[] mainMenus = {"대출 관리", "도서 관리", "사용자 관리", "종료"};
++  String menuTitle = "메인 메뉴";
++  Stack menuPath = new Stack();
+ 
+   public static void main(String[] args) {
++    new App().execute();
++  }
++
++  void execute() {
+     Print.printProgramTitle();
+     Print.printTitle(menuTitle);
+     Print.printMenus(mainMenus);
+ 
++    PromptLibrary.inputIntWithRange(0, mainMenus.length - 1, "%s>>", getMenuPath);
+ 
+   }
+ 
