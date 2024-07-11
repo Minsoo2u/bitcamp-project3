@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class PromptLibrary extends Prompt {
 
+  @Override
   public int inputInt(String format, Object... args) {
     while (true) {
       try {

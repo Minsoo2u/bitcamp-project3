@@ -36,7 +36,6 @@ public class App {
     commandMap.put("사용자 관리", new UserCommand());
   }
 
-
   public static void main(String[] args) {
     new App().execute();
   }
