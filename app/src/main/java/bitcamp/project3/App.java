@@ -32,7 +32,7 @@ public class App {
     List<Rent> rentList = new LinkedList<>();
 
     commandMap.put("대출 관리", new RentCommand());
-    commandMap.put("도서 관리", new BookCommand());
+    commandMap.put("도서 관리", new BookCommand(bookList));
     commandMap.put("사용자 관리", new UserCommand());
   }
 
