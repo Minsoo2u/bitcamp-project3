@@ -17,7 +17,6 @@ public class Book {
         this.isBorrowed = false;
     }
 
-
     public String getTitle() {
         return title;
     }

@@ -27,22 +27,4 @@ public class Rent {
         return startDate;
     }
 
-    public int getPeriod() {
-        return period;
-    }
-
-    public LocalDate getReturnDate() {
-        return startDate.plusDays(period);
-    }
-
-    @Override
-    public String toString() {
-        return "Rent{" +
-                "사용자=" + user +
-                ", 도서=" + book +
-                ", 대출 시작일=" + startDate +
-                ", 대출 기간(일수)=" + period +
-                ", 반납일=" + getReturnDate() +
-                '}';
-    }
 }
