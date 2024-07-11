@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fb07c883-45ab-425a-a783-af2970a03c08" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/bitcamp/project3/command/AbstractCommand.java" afterDir="false" />
+    <list default="true" id="fb07c883-45ab-425a-a783-af2970a03c08" name="변경" comment="feat: 기본 틀 구현">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/bitcamp/project3/command/BookCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/bitcamp/project3/command/Command.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/bitcamp/project3/command/RentCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/bitcamp/project3/command/UserCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/bitcamp/project3/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/bitcamp/project3/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/bitcamp/project3/command/AbstractCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/bitcamp/project3/command/AbstractCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/bitcamp/project3/util/PromptLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/bitcamp/project3/util/PromptLibrary.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +65,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -148,6 +155,19 @@
       <option name="presentableId" value="Default" />
       <updated>1720679151164</updated>
     </task>
+    <task id="LOCAL-00001" summary="feat: 기본 틀 구현">
+      <option name="closed" value="true" />
+      <created>1720684788554</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1720684788554</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: 기본 틀 구현" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 기본 틀 구현" />
   </component>
 </project>

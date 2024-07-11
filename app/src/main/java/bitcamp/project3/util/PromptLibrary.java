@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class PromptLibrary extends Prompt {
 
-  public static int inputInt(String format, Object... args) {
+  public int inputInt(String format, Object... args) {
     while (true) {
       try {
         return Integer.parseInt(input(format, args));
@@ -16,7 +16,7 @@ public class PromptLibrary extends Prompt {
     }
   }
 
-  public static int inputIntWithRange(int min, int max, String format, Object... args) {
+  public int inputIntWithRange(int min, int max, String format, Object... args) {
     while (true) {
       int inputNum = inputInt(format, args);
 
@@ -28,7 +28,7 @@ public class PromptLibrary extends Prompt {
     }
   }
 
-  public static Calendar inputCalendar(Calendar defaultCalendar) {
+  public Calendar inputCalendar(Calendar defaultCalendar) {
     int year = 0;
     int month = 0;
 
@@ -99,7 +99,7 @@ public class PromptLibrary extends Prompt {
     }
   }
 
-  public static int inputMonthWithoutDefault(String message) {
+  public int inputMonthWithoutDefault(String message) {
     int month;
     while (true) {
       try {
@@ -123,7 +123,7 @@ public class PromptLibrary extends Prompt {
     }
   }
 
-  public static void inputDayWithoutDefault(String message, Calendar calendar) {
+  public void inputDayWithoutDefault(String message, Calendar calendar) {
     while (true) {
       try {
         int year = calendar.get(Calendar.YEAR);
@@ -150,7 +150,7 @@ public class PromptLibrary extends Prompt {
     }
   }
 
-  public static int inputYearWithDefault(String message, int defaultYear) {
+  public int inputYearWithDefault(String message, int defaultYear) {
     int year;
     while (true) {
       try {
@@ -173,7 +173,7 @@ public class PromptLibrary extends Prompt {
 
   }
 
-  public static int inputMonthWithDefault(String message, int defaultMonth) {
+  public int inputMonthWithDefault(String message, int defaultMonth) {
     int month;
     while (true) {
       try {
@@ -196,7 +196,7 @@ public class PromptLibrary extends Prompt {
     }
   }
 
-  public static void inputDayWithDefault(String message, int defaultDay, Calendar calendar) {
+  public void inputDayWithDefault(String message, int defaultDay, Calendar calendar) {
     while (true) {
       try {
         int year = calendar.get(Calendar.YEAR);
@@ -223,18 +223,18 @@ public class PromptLibrary extends Prompt {
     }
   }
 
-  public static boolean isInRange(int value, int min, int max) {
+  public boolean isInRange(int value, int min, int max) {
     return value > min && value <= max; // 월은 0부터 11까지 유효 (0: 1월, 11: 12월)
   }
 
-  public static boolean isValidDay(int year, int month, int day) {
+  public boolean isValidDay(int year, int month, int day) {
     Calendar calendar = Calendar.getInstance();
     calendar.set(year, month, 1);
     int maxDay = getMaxDay(calendar);
     return day >= 1 && day <= maxDay;
   }
 
-  public static int getMaxDay(Calendar calendar) {
+  public int getMaxDay(Calendar calendar) {
     return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
   }
 }
