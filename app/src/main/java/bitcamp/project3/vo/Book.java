@@ -17,10 +17,6 @@ public class Book {
         this.isBorrowed = false;
     }
 
-    public static void decreaseSeqNo() {
-        --seqNo;
-    }
-
     public String getTitle() {
         return title;
     }

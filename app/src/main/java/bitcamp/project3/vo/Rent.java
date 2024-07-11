@@ -1,5 +1,5 @@
 package bitcamp.project3.vo;
 
-public class Rent {
+public class Rent {git
 
 }
