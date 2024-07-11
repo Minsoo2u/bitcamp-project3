@@ -1,14 +1,9 @@
 package bitcamp.project3.util;
 
-import bitcamp.project3.vo.ProgramInfo;
 import java.time.LocalDate;
 import java.util.Calendar;
 
 public class Print {
-
-  public static void printProgramTitle() {
-    System.out.println(ProgramInfo.programTitle);
-  }
 
   public static void printTitle(String title) {
     System.out.println("");

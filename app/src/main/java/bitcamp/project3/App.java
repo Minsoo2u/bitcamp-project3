@@ -20,7 +20,7 @@ public class App {
 
   String[] mainMenus = {"대출 관리", "도서 관리", "사용자 관리", "종료"};
   String menuTitle = "메인 메뉴";
-  Stack menuPath = new Stack();
+  Stack<String> menuPath = new Stack<>();
   AbstractCommand abstractCommand;
 
   Map<String, Command> commandMap = new HashMap<>();
@@ -41,12 +41,44 @@ public class App {
   }
 
   void execute() {
-    Print.printProgramTitle();
+    menuPath.push("메인");
+
     Print.printTitle(menuTitle);
     Print.printMenus(mainMenus);
 
-    prompt.inputIntWithRange(0, mainMenus.length - 1, "%s>>",
+    int menuNo = prompt.inputIntWithRange(0, mainMenus.length - 1, "%s>>",
         abstractCommand.getMenuPath(menuPath));
+
+    processMenu(menuNo);
+
+    if (menuNo == 0) {
+      System.out.println("프로그램을 종료합니다.");
+      return;
+    }
+
+
+    prompt.close();
+  }
+
+  String getMenuTitle(int menuNo) {
+    if (menuNo == 0) {
+      menuNo = mainMenus.length - 1;
+    } else {
+      menuNo -= 1;
+    }
+
+    return mainMenus[menuNo];
+  }
+
+  void processMenu(int menuNo) {
+    Command command = commandMap.get(menuTitle);
+
+    if (command == null) {
+      System.out.println("존재하지 않는 메뉴입니다.");
+      return;
+    }
+
+    command.execute();
   }
 
 
