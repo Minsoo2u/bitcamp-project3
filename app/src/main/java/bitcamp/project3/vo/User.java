@@ -1,19 +1,28 @@
 package bitcamp.project3.vo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class User {
-    private static int seqNo = 0;
-
+    private int id;
     private String name;
-    private int userId;
-    private List<Book> borrowedBooks;
+    private String contact;
 
-    public User(String name) {
+    // 기본 생성자
+    public User() {
+    }
+
+    // 파라미터가 있는 생성자
+    public User(int id, String name, String contact) {
+        this.id = id;
         this.name = name;
-        this.userId = ++seqNo;
-        this.borrowedBooks = new ArrayList<>();
+        this.contact = contact;
+    }
+
+    // Getter 및 Setter 메서드
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -24,20 +33,20 @@ public class User {
         this.name = name;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getContact() {
+        return contact;
     }
 
-    public List<Book> getBorrowedBooks() {
-        return borrowedBooks;
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
-                ", userId='" + userId + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", contact='" + contact + '\'' +
                 '}';
     }
-
 }
