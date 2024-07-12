@@ -5,11 +5,7 @@ import bitcamp.project3.util.Print;
 
 import java.util.Stack;
 
-public class AbstractCommand implements Command {
-
-  @Override
-  public void execute() {
-  }
+public abstract class AbstractCommand implements Command {
 
   @Override
   public void create() {

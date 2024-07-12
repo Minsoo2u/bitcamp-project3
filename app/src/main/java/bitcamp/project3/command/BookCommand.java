@@ -10,10 +10,8 @@ import java.util.List;
 public class BookCommand extends AbstractCommand {
 
   private String menuTitle = "도서 관리";
-
   private BookList<Book> bookList;
   private PromptLibrary prompt = new PromptLibrary();
-
   private String[] menus = {"등록", "수정", "조회", "삭제", "이전"};
 
   public BookCommand(BookList<Book> list) {
@@ -25,7 +23,7 @@ public class BookCommand extends AbstractCommand {
       Print.printTitle(menuTitle);
       Print.printMenus(menus);
 
-      int menuNo = PromptLibrary.inputIntWithRange(0, 4, "메뉴 선택 >>");
+      int menuNo = prompt.inputIntWithRange(0, 4, "메뉴 선택 >>");
 
       switch (menuNo) {
         case 1:

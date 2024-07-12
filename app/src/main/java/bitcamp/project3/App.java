@@ -9,22 +9,23 @@ import bitcamp.project3.util.BookList;
 import bitcamp.project3.util.Print;
 import bitcamp.project3.util.PromptLibrary;
 import bitcamp.project3.vo.Book;
+import bitcamp.project3.vo.CommandMap;
 import bitcamp.project3.vo.Rent;
 import bitcamp.project3.vo.User;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import org.checkerframework.checker.units.qual.A;
 
 public class App {
 
   String[] mainMenus = {"대출 관리", "도서 관리", "사용자 관리", "종료"};
   String menuTitle = "메인 메뉴";
   Stack<String> menuPath = new Stack<>();
-  AbstractCommand abstractCommand;
-
-  Map<String, Command> commandMap = new HashMap<>();
+  AbstractCommand abstractCommand = new AbstractCommand();
+  Map<String, Command> commandMap = new CommandMap<>();
+  PromptLibrary prompt = new PromptLibrary();
 
   App() {
     List<User> userList = new LinkedList<>();
@@ -48,16 +49,13 @@ public class App {
       Print.printTitle(menuTitle);
       Print.printMenus(mainMenus);
 
-      //int menuNo = prompt.inputIntWithRange(0, mainMenus.length - 1, "%s>>",
-      //    abstractCommand.getMenuPath(menuPath));
-
-      int menuNo = PromptLibrary.inputIntWithRange(0, mainMenus.length - 1, "메인 >>");
+      int menuNo = prompt.inputIntWithRange(0, mainMenus.length - 1, "%s>>", abstractCommand.getMenuPath(menuPath));
 
       processMenu(menuNo);
 
       if (menuNo == 0) {
         System.out.println("프로그램을 종료합니다.");
-        PromptLibrary.close();
+        prompt.close();
         return;
       }
     }
