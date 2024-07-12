@@ -16,7 +16,7 @@ public class Prompt {
     return Integer.parseInt(input(format, args));
   }
 
-  public static void close() {
+  public void close() {
     keyboardScanner.close();
   }
 }

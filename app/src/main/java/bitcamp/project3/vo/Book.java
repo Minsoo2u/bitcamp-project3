@@ -5,18 +5,19 @@ public class Book {
 
     private String title;
     private String author;
-    private int ISBN;
+    private int no;
     private int publishYear;
     private boolean isBorrowed;
 
     public Book() {
-        this.ISBN = ++seqNo;
+        this.no = ++seqNo;
+        this.isBorrowed = false;
     }
 
     public Book(String title, String author, int publishYear) {
         this.title = title;
         this.author = author;
-        this.ISBN = ++seqNo;
+        this.no = ++seqNo;
         this.publishYear = publishYear;
         this.isBorrowed = false;
     }
@@ -38,7 +39,7 @@ public class Book {
     }
 
     public int getISBN() {
-        return ISBN;
+        return no;
     }
 
     public int getPublishYear() {
@@ -62,7 +63,7 @@ public class Book {
         return "Book{" +
                 "제목='" + title + '\'' +
                 ", 저자='" + author + '\'' +
-                ", ISBN=" + ISBN +
+                ", ISBN=" + no +
                 ", 출판년도=" + publishYear +
                 ", 대출중=" + isBorrowed +
                 '}';

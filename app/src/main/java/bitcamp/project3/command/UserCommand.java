@@ -82,7 +82,7 @@ public class UserCommand extends AbstractCommand {
         System.out.println("ID | 이름 | 연락처");
         for (int i = 0; i < userList.size(); i++) {
           User user = userList.get(i);
-          System.out.printf("%d | %s | %s \\n", user.getId(), user.getName(), user.getContact());
+          System.out.printf("%d | %s | %s \n", user.getId(), user.getName(), user.getContact());
         }
         break;
 
@@ -90,7 +90,7 @@ public class UserCommand extends AbstractCommand {
         System.out.println("이름 | ID | 연락처");
         for (int i = 0; i < userList.size(); i++) {
           User user = userList.get(i);
-          System.out.printf("%s | %d | %s \\n", user.getName(), user.getId(), user.getContact());
+          System.out.printf("%s | %d | %s \n", user.getName(), user.getId(), user.getContact());
         }
         break;
     }
@@ -102,7 +102,7 @@ public class UserCommand extends AbstractCommand {
     System.out.println("ID | 이름 | 연락처");
     for (int i = 0; i < userList.size(); i++) {
       User user = userList.get(i);
-      System.out.printf("%d | %s | %s \\n", user.getId(), user.getName(), user.getContact());
+      System.out.printf("%d | %s | %s \n", user.getId(), user.getName(), user.getContact());
     }
 
     while(true) {

@@ -23,12 +23,12 @@ public abstract class AbstractCommand implements Command {
   public void delete() {
   }
 
-  public String getMenuPath(Stack<String> menuPath) {
+  public static String getMenuPath(Stack<String> menuPath) {
     StringBuilder stringBuilder = new StringBuilder();
 
     for (int i = 0; i < menuPath.size(); i++) {
       stringBuilder.append(menuPath.get(i));
-      if (i == menuPath.size() - 1) {
+      if (i != menuPath.size() - 1) {
         stringBuilder.append("/");
       }
     }

@@ -1,17 +1,20 @@
 package bitcamp.project3.vo;
 
 public class User {
+    private static int seqNo;
+
     private int id;
     private String name;
     private String contact;
 
     // 기본 생성자
     public User() {
+        this.id = ++seqNo;
     }
 
     // 파라미터가 있는 생성자
-    public User(int id, String name, String contact) {
-        this.id = id;
+    public User(String name, String contact) {
+        this.id = ++seqNo;
         this.name = name;
         this.contact = contact;
     }
