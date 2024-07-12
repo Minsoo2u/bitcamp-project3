@@ -9,6 +9,10 @@ public class Book {
     private int publishYear;
     private boolean isBorrowed;
 
+    public Book() {
+        this.ISBN = ++seqNo;
+    }
+
     public Book(String title, String author, int publishYear) {
         this.title = title;
         this.author = author;

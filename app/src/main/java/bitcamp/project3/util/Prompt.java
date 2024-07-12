@@ -4,19 +4,19 @@ import java.util.Scanner;
 
 public class Prompt {
 
-   Scanner keyboardScanner = new Scanner(System.in);
+  static Scanner keyboardScanner = new Scanner(System.in);
 
-  public  String input(String format, Object... args) {
+  public static String input(String format, Object... args) {
     System.out.printf(format + " ", args);
     return keyboardScanner.nextLine();
   }
 
 
-  public  int inputInt(String format, Object... args) {
+  public static int inputInt(String format, Object... args) {
     return Integer.parseInt(input(format, args));
   }
 
-  public  void close() {
+  public static void close() {
     keyboardScanner.close();
   }
 }

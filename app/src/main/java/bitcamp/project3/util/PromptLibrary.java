@@ -6,8 +6,7 @@ import java.util.Date;
 
 public class PromptLibrary extends Prompt {
 
-  @Override
-  public int inputInt(String format, Object... args) {
+  public static int inputInt(String format, Object... args) {
     while (true) {
       try {
         return Integer.parseInt(input(format, args));
@@ -17,7 +16,7 @@ public class PromptLibrary extends Prompt {
     }
   }
 
-  public int inputIntWithRange(int min, int max, String format, Object... args) {
+  public static int inputIntWithRange(int min, int max, String format, Object... args) {
     while (true) {
       int inputNum = inputInt(format, args);
 

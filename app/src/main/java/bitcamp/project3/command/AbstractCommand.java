@@ -27,7 +27,7 @@ public class AbstractCommand implements Command {
   public void delete() {
   }
 
-  public String getMenuPath(Stack menuPath) {
+  public String getMenuPath(Stack<String> menuPath) {
     StringBuilder stringBuilder = new StringBuilder();
 
     for (int i = 0; i < menuPath.size(); i++) {

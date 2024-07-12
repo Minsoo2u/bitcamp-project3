@@ -5,6 +5,7 @@ import bitcamp.project3.command.BookCommand;
 import bitcamp.project3.command.Command;
 import bitcamp.project3.command.RentCommand;
 import bitcamp.project3.command.UserCommand;
+import bitcamp.project3.util.BookList;
 import bitcamp.project3.util.Print;
 import bitcamp.project3.util.PromptLibrary;
 import bitcamp.project3.vo.Book;
@@ -24,11 +25,10 @@ public class App {
   AbstractCommand abstractCommand;
 
   Map<String, Command> commandMap = new HashMap<>();
-  PromptLibrary prompt;
 
   App() {
     List<User> userList = new LinkedList<>();
-    List<Book> bookList = new LinkedList<>();
+    BookList<Book> bookList = new BookList<>();
     List<Rent> rentList = new LinkedList<>();
 
     commandMap.put("대출 관리", new RentCommand());
@@ -43,21 +43,24 @@ public class App {
   void execute() {
     menuPath.push("메인");
 
-    Print.printTitle(menuTitle);
-    Print.printMenus(mainMenus);
+    while(true) {
 
-    int menuNo = prompt.inputIntWithRange(0, mainMenus.length - 1, "%s>>",
-        abstractCommand.getMenuPath(menuPath));
+      Print.printTitle(menuTitle);
+      Print.printMenus(mainMenus);
 
-    processMenu(menuNo);
+      //int menuNo = prompt.inputIntWithRange(0, mainMenus.length - 1, "%s>>",
+      //    abstractCommand.getMenuPath(menuPath));
 
-    if (menuNo == 0) {
-      System.out.println("프로그램을 종료합니다.");
-      return;
+      int menuNo = PromptLibrary.inputIntWithRange(0, mainMenus.length - 1, "메인 >>");
+
+      processMenu(menuNo);
+
+      if (menuNo == 0) {
+        System.out.println("프로그램을 종료합니다.");
+        PromptLibrary.close();
+        return;
+      }
     }
-
-
-    prompt.close();
   }
 
   String getMenuTitle(int menuNo) {
@@ -71,6 +74,7 @@ public class App {
   }
 
   void processMenu(int menuNo) {
+    String menuTitle = getMenuTitle(menuNo);
     Command command = commandMap.get(menuTitle);
 
     if (command == null) {
