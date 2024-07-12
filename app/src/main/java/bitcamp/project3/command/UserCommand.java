@@ -1,11 +1,10 @@
 package bitcamp.project3.command;
 
-import bitcamp.project3.util.UserList;
 import bitcamp.project3.util.Print;
 import bitcamp.project3.util.PromptLibrary;
+import bitcamp.project3.util.UserList;
 import bitcamp.project3.vo.User;
-
-import java.util.List;
+import java.util.Stack;
 
 public class UserCommand extends AbstractCommand {
 
@@ -18,8 +17,8 @@ public class UserCommand extends AbstractCommand {
     this.userList = list;
   }
 
-  public void execute() {
-    while(true) {
+  public void execute(Stack<String> menuPath) {
+    while (true) {
       Print.printTitle(menuTitle);
       Print.printMenus(menus);
 
@@ -75,14 +74,14 @@ public class UserCommand extends AbstractCommand {
     Print.printTitle("사용자 조회");
     Print.printMenus(menus);
 
-    int menuNo = prompt.inputIntWithRange(0, menus.length-1, "메뉴 선택 >>");
+    int menuNo = prompt.inputIntWithRange(0, menus.length - 1, "메뉴 선택 >>");
 
-    switch(menuNo) {
+    switch (menuNo) {
       case 1:
         System.out.println("ID | 이름 | 연락처");
         for (int i = 0; i < userList.size(); i++) {
           User user = userList.get(i);
-          System.out.printf("%d | %s | %s \n", user.getId(), user.getName(), user.getContact());
+          System.out.printf("%d | %s | %s \n", user.getNo(), user.getName(), user.getContact());
         }
         break;
 
@@ -90,7 +89,7 @@ public class UserCommand extends AbstractCommand {
         System.out.println("이름 | ID | 연락처");
         for (int i = 0; i < userList.size(); i++) {
           User user = userList.get(i);
-          System.out.printf("%s | %d | %s \n", user.getName(), user.getId(), user.getContact());
+          System.out.printf("%s | %d | %s \n", user.getName(), user.getNo(), user.getContact());
         }
         break;
     }
@@ -99,17 +98,13 @@ public class UserCommand extends AbstractCommand {
   protected void deleteUser() {
     Print.printTitle("사용자 삭제");
 
-    System.out.println("ID | 이름 | 연락처");
-    for (int i = 0; i < userList.size(); i++) {
-      User user = userList.get(i);
-      System.out.printf("%d | %s | %s \n", user.getId(), user.getName(), user.getContact());
-    }
+    userList.printUserListByNo();
 
-    while(true) {
+    while (true) {
       int userID = prompt.inputInt("사용자 ID 입력 >>");
       int indexNo = indexByID(userID);
 
-      if (indexNo == -1){
+      if (indexNo == -1) {
         System.out.println("입력한 번호는 유효하지 않은 번호입니다.");
       } else {
         userList.remove(indexNo);
@@ -121,7 +116,7 @@ public class UserCommand extends AbstractCommand {
 
   private User userByID(int id) {
     for (User user : userList) {
-      if (user.getId() == id) {
+      if (user.getNo() == id) {
         return user;
       }
     }
@@ -130,7 +125,7 @@ public class UserCommand extends AbstractCommand {
 
   private int indexByID(int id) {
     for (int i = 0; i < userList.size(); i++) {
-      if (userList.get(i).getId() == id) {
+      if (userList.get(i).getNo() == id) {
         return i;
       }
     }

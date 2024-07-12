@@ -35,4 +35,14 @@ public abstract class AbstractCommand implements Command {
 
     return stringBuilder.toString();
   }
+
+  public static String getMenuTitle(int menuNo, String[] menus) {
+    if (menuNo == 0) {
+      menuNo = menus.length - 1;
+    } else {
+      menuNo -= 1;
+    }
+
+    return menus[menuNo];
+  }
 }

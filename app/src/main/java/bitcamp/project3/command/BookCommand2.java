@@ -14,13 +14,13 @@ public class BookCommand2 extends AbstractCommand {
   private String[] menus = {"등록", "수정", "조회", "삭제", "이전"};
   private Stack<String> menuPath = new Stack<>();
 
-  public BookCommand2(BookList<Book> list) {
-    this.bookList = list;
-    }
+  public BookCommand2(BookList<Book> bookList) {
+    this.bookList = bookList;
+  }
 
-  public void execute() {
-    //menuPath.push();
-    while(true) {
+  public void execute(Stack<String> menuPath) {
+    menuPath.push("도서 관리");
+    while (true) {
       Print.printTitle(menuTitle);
       Print.printMenus(menus);
 
@@ -40,6 +40,7 @@ public class BookCommand2 extends AbstractCommand {
           this.deleteBook();
           break;
         case 0:
+          menuPath.pop();
           return;
 
       }
@@ -77,9 +78,9 @@ public class BookCommand2 extends AbstractCommand {
     Print.printTitle("도서 조회");
     Print.printMenus(menus);
 
-    int menuNo = prompt.inputIntWithRange(0, menus.length-1, "메뉴 선택 >>");
+    int menuNo = prompt.inputIntWithRange(0, menus.length - 1, "메뉴 선택 >>");
 
-    switch(menuNo) {
+    switch (menuNo) {
       case 1:
         System.out.println("ISBN | 제목 | 저자 | 출판년도");
         for (int i = 0; i < bookList.size(); i++) {
@@ -124,11 +125,11 @@ public class BookCommand2 extends AbstractCommand {
 
     }
 
-    while(true) {
+    while (true) {
       int isbnNo = prompt.inputInt("ISBN 번호 입력 >>");
       int indexNo = bookList.indexByISBN(isbnNo);
 
-      if (isbnNo == -1){
+      if (isbnNo == -1) {
         System.out.println("입력한 번호는 유효하지 않은 번호입니다.");
       } else {
         bookList.remove(indexNo);
@@ -138,5 +139,5 @@ public class BookCommand2 extends AbstractCommand {
     }
   }
 
-  }
+}
 

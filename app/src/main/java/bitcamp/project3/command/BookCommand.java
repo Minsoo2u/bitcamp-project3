@@ -6,6 +6,7 @@ import bitcamp.project3.util.PromptLibrary;
 import bitcamp.project3.vo.Book;
 
 import java.util.List;
+import java.util.Stack;
 
 public class BookCommand extends AbstractCommand {
 
@@ -18,12 +19,12 @@ public class BookCommand extends AbstractCommand {
     this.bookList = list;
     }
 
-  public void execute() {
+  public void execute(Stack<String> menuPath) {
     while(true) {
       Print.printTitle(menuTitle);
       Print.printMenus(menus);
 
-      int menuNo = prompt.inputIntWithRange(0, 4, "메뉴 선택 >>");
+      int menuNo = prompt.inputIntWithRange(0, 4, "%s >>", AbstractCommand.getMenuPath(menuPath));
 
       switch (menuNo) {
         case 1:
