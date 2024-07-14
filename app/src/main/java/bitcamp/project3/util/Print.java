@@ -5,12 +5,12 @@ import java.util.Calendar;
 
 public class Print {
 
-  public static void printTitle(String title) {
+  public void printTitle(String title) {
     System.out.println("");
     System.out.println("------<< " + title + " >>------");
   }
 
-  public static void printMenus(String[] menus) {
+  public void printMenus(String[] menus) {
     for (int i = 0; i < menus.length - 1; i++) {
       System.out.println(i + 1 + ". " + menus[i]);
     }
@@ -18,11 +18,11 @@ public class Print {
         Ansi.RED.getName() + "0. " + menus[menus.length - 1] + Ansi.INIT.getName());
   }
 
-  public static void printSystem(String str) {
+  public void printSystem(String str) {
     System.out.println(Ansi.RED.getName() + "[System] " + str + Ansi.INIT.getName());
   }
 
-  public static Calendar printCalendar(int year, int month) {
+  public Calendar printCalendar(int year, int month) {
     // 현재 연도와 월 가져오기
     String boldAnsi = "\033[1m";
     String redAnsi = "\033[31m";
@@ -76,7 +76,7 @@ public class Print {
   }
 
 
-  public static String printFittedString(int length, String str) {
+  public String printFittedString(int length, String str) {
     int strByteLength = str.getBytes().length;
     int strLength = str.length();
 

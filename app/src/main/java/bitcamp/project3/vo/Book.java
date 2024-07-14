@@ -2,22 +2,24 @@ package bitcamp.project3.vo;
 
 public class Book {
     private static int seqNo = 0;
+    public static final int MAX_TITLE_LENGTH = 20;
+    public static final int MAX_AUTHOR_NAME_LENGTH = 10;
 
     private String title;
     private String author;
-    private int no;
+    private int ISBN;
     private int publishYear;
     private boolean isBorrowed;
 
     public Book() {
-        this.no = ++seqNo;
+        this.ISBN = ++seqNo;
         this.isBorrowed = false;
     }
 
     public Book(String title, String author, int publishYear) {
         this.title = title;
         this.author = author;
-        this.no = ++seqNo;
+        this.ISBN = ++seqNo;
         this.publishYear = publishYear;
         this.isBorrowed = false;
     }
@@ -39,7 +41,7 @@ public class Book {
     }
 
     public int getISBN() {
-        return no;
+        return ISBN;
     }
 
     public int getPublishYear() {
@@ -63,7 +65,7 @@ public class Book {
         return "Book{" +
                 "제목='" + title + '\'' +
                 ", 저자='" + author + '\'' +
-                ", ISBN=" + no +
+                ", ISBN=" + ISBN +
                 ", 출판년도=" + publishYear +
                 ", 대출중=" + isBorrowed +
                 '}';

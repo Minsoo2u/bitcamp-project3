@@ -7,22 +7,6 @@ import java.util.Stack;
 
 public abstract class AbstractCommand implements Command {
 
-  @Override
-  public void create() {
-  }
-
-  @Override
-  public void read() {
-  }
-
-  @Override
-  public void update() {
-  }
-
-  @Override
-  public void delete() {
-  }
-
   public static String getMenuPath(Stack<String> menuPath) {
     StringBuilder stringBuilder = new StringBuilder();
 

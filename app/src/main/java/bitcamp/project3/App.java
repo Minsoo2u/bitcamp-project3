@@ -23,6 +23,7 @@ public class App {
   private Stack<String> menuPath = new Stack<>();
   private CommandMap<String, Command> commandMap = new CommandMap<>();
   private PromptLibrary prompt = new PromptLibrary();
+  private Print print = new Print();
 
   App() {
     UserList<User> userList = new UserList<>();
@@ -40,11 +41,10 @@ public class App {
 
   void execute() {
     menuPath.push("메인");
-
     while(true) {
 
-      Print.printTitle(menuTitle);
-      Print.printMenus(mainMenus);
+      print.printTitle(menuTitle);
+      print.printMenus(mainMenus);
       int menuNo = prompt.inputIntWithRange(0, mainMenus.length - 1, "%s>>", AbstractCommand.getMenuPath(menuPath));
 
       commandMap.commandExecute(AbstractCommand.getMenuTitle(menuNo, mainMenus), menuPath);

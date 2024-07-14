@@ -2,6 +2,8 @@ package bitcamp.project3.vo;
 
 public class User {
     private static int seqNo;
+    public static final int MAX_NAME_LENGTH = 6;
+    public static final int MAX_CONTACT_LENGTH = 12;
 
     private int no;
     private String name;

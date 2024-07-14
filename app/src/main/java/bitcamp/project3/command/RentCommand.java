@@ -19,10 +19,10 @@ public class RentCommand extends AbstractCommand {
   private RentList<Rent> rentList;
   private PromptLibrary prompt = new PromptLibrary();
   private String[] menus = {"도서 대출", "도서 반납", "대출 조회", "대출 수정", "이전"};
-  private Stack<String> menuPath = new Stack<>();
   private Map<String, CrudCommand> crudMap = new HashMap<>();
   private UserList<User> userList;
   private BookList<Book> bookList;
+  private Print print = new Print();
 
   public RentCommand(RentList<Rent> rentList, UserList<User> userList, BookList<Book> bookList) {
     this.rentList = rentList;
@@ -37,12 +37,13 @@ public class RentCommand extends AbstractCommand {
   @Override
   public void execute(Stack<String> menuPath) {
     while (true) {
-      Print.printTitle(menuTitle);
-      Print.printMenus(menus);
+      print.printTitle(menuTitle);
+      print.printMenus(menus);
 
       int menuNo = prompt.inputIntWithRange(0, 4, "%s >>", getMenuPath(menuPath));
 
       if (menuNo == 0) {
+        menuPath.pop();
         return;
       }
       CrudCommand command = crudMap.get(getMenuTitle(menuNo, menus));
@@ -50,8 +51,7 @@ public class RentCommand extends AbstractCommand {
     }
   }
 
-  public class CommandFunc {
-
+  private class CommandFunc {
     void create() {
       Rent rent = new Rent();
 
@@ -92,7 +92,7 @@ public class RentCommand extends AbstractCommand {
         period = prompt.inputInt("대여 일수 입력 >>");
 
         if (period > 30) {
-          Print.printSystem("한 달 이상은 대여할 수 없습니다.");
+          print.printSystem("한 달 이상은 대여할 수 없습니다.");
         } else {
           break;
         }
@@ -107,42 +107,19 @@ public class RentCommand extends AbstractCommand {
     }
 
     void read() {
-      System.out.println("No | 사용자 | 책 | 대여 시작일 | 대여 기간 | 대여 종료일");
-      for (int i = 0; i < rentList.size(); i++) {
-        int no = rentList.get(i).getNo();
-        String name = rentList.get(i).getUser().getName();
-        String title = rentList.get(i).getBook().getTitle();
-        LocalDate startDate = rentList.get(i).getStartDate();
-        int period = rentList.get(i).getPeriod();
-        LocalDate endDate = rentList.get(i).getEndDate();
-
-        System.out.printf("%d | %s | %s | %s | %d | %s\n", no, name, title, startDate, period, endDate);
-      }
+      rentList.printRentListByNo();
     }
 
     void update() {
       Rent rent;
       while(true) {
-        System.out.println("No | 사용자 | 책 | 대여 시작일 | 대여 기간 | 대여 종료일");
-        for (int i = 0; i < rentList.size(); i++) {
-          int no = rentList.get(i).getNo();
-          String name = rentList.get(i).getUser().getName();
-          String title = rentList.get(i).getBook().getTitle();
-          LocalDate startDate = rentList.get(i).getStartDate();
-          int period = rentList.get(i).getPeriod();
-          LocalDate endDate = rentList.get(i).getEndDate();
-
-          System.out.printf("%d | %s | %s | %s | %d | %s\n", no, name, title, startDate, period,
-              endDate);
-        }
+        rentList.printRentListByNo();
 
         int rentNo = prompt.inputInt("수정할 대여 정보 No [0 = 종료] >>");
-
         if (rentNo == 0) {
           System.out.println("입력을 종료합니다.");
           return;
         }
-
         rent = rentList.rentByNo(rentNo);
 
         if (rent == null) {
@@ -189,7 +166,7 @@ public class RentCommand extends AbstractCommand {
         period = prompt.inputInt("대여 일수 (%d) 입력 >>", rent.getPeriod());
 
         if (period > 30) {
-          Print.printSystem("한 달 이상은 대여할 수 없습니다.");
+          print.printSystem("한 달 이상은 대여할 수 없습니다.");
         } else {
           break;
         }
@@ -201,18 +178,6 @@ public class RentCommand extends AbstractCommand {
     }
 
     void delete() {
-      System.out.println("No | 사용자 | 책 | 대여 시작일 | 대여 기간 | 대여 종료일");
-      for (int i = 0; i < rentList.size(); i++) {
-        int no = rentList.get(i).getNo();
-        String name = rentList.get(i).getUser().getName();
-        String title = rentList.get(i).getBook().getTitle();
-        LocalDate startDate = rentList.get(i).getStartDate();
-        int period = rentList.get(i).getPeriod();
-        LocalDate endDate = rentList.get(i).getEndDate();
-
-        System.out.printf("%d | %s | %s | %s | %d | %s\n", no, name, title, startDate, period, endDate);
-      }
-
       int rentNo = prompt.inputInt("반납할 대여 정보 No [0 = 종료] >>");
 
       if (rentNo == 0) {
@@ -221,12 +186,6 @@ public class RentCommand extends AbstractCommand {
       Rent rent = rentList.rentByNo(rentNo);
       rentList.remove(rent);
     }
-  }
-
-  @FunctionalInterface
-  interface CrudCommand {
-
-    void execute();
   }
 
 }
