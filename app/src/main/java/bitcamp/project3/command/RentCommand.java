@@ -8,6 +8,7 @@ import bitcamp.project3.util.UserList;
 import bitcamp.project3.vo.Book;
 import bitcamp.project3.vo.Rent;
 import bitcamp.project3.vo.User;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -39,55 +40,186 @@ public class RentCommand extends AbstractCommand {
       Print.printTitle(menuTitle);
       Print.printMenus(menus);
 
-      int menuNo = prompt.inputIntWithRange(0, 4, "%s >>", AbstractCommand.getMenuPath(menuPath));
+      int menuNo = prompt.inputIntWithRange(0, 4, "%s >>", getMenuPath(menuPath));
 
+      if (menuNo == 0) {
+        return;
+      }
       CrudCommand command = crudMap.get(getMenuTitle(menuNo, menus));
       command.execute();
-
-
     }
   }
 
   public class CommandFunc {
 
     void create() {
-      while (true) {
-        Rent rent = new Rent();
+      Rent rent = new Rent();
 
+      // 대여 회원 입력
+      User user;
+      while (true) {
         userList.printUserListByNo();
         int userNo = prompt.inputInt("사용자 No 입력 >>");
-        User user = userList.userByNo(userNo);
+        user = userList.userByNo(userNo);
 
         if (user == null) {
           System.out.println("잘못된 번호입니다.");
-          continue;
+        } else {
+          break;
         }
+      }
 
+      // 대여할 책 입력
+      Book book;
+      while(true) {
         bookList.printBookListByNo();
         int bookNo = prompt.inputInt("책 No 입력 >>");
-        Book book = bookList.bookByISBN(bookNo);
+        book = bookList.bookByISBN(bookNo);
 
         if (book == null) {
           System.out.println("잘못된 번호입니다.");
-          continue;
+        } else {
+          break;
         }
-
-        rent.setUser(user);
-        rent.setBook(book);
-
       }
+
+      // 대여일 = 오늘
+      LocalDate startDate = LocalDate.now();
+
+      // 대여 기간 입력 (대여일 = 오늘)
+      int period;
+      while(true) {
+        period = prompt.inputInt("대여 일수 입력 >>");
+
+        if (period > 30) {
+          Print.printSystem("한 달 이상은 대여할 수 없습니다.");
+        } else {
+          break;
+        }
+      }
+
+      rent.setUser(user);
+      rent.setBook(book);
+      rent.setStartDate(startDate);
+      rent.setPeriod(period);
+
+      rentList.add(rent);
     }
 
     void read() {
+      System.out.println("No | 사용자 | 책 | 대여 시작일 | 대여 기간 | 대여 종료일");
+      for (int i = 0; i < rentList.size(); i++) {
+        int no = rentList.get(i).getNo();
+        String name = rentList.get(i).getUser().getName();
+        String title = rentList.get(i).getBook().getTitle();
+        LocalDate startDate = rentList.get(i).getStartDate();
+        int period = rentList.get(i).getPeriod();
+        LocalDate endDate = rentList.get(i).getEndDate();
 
+        System.out.printf("%d | %s | %s | %s | %d | %s\n", no, name, title, startDate, period, endDate);
+      }
     }
 
     void update() {
+      Rent rent;
+      while(true) {
+        System.out.println("No | 사용자 | 책 | 대여 시작일 | 대여 기간 | 대여 종료일");
+        for (int i = 0; i < rentList.size(); i++) {
+          int no = rentList.get(i).getNo();
+          String name = rentList.get(i).getUser().getName();
+          String title = rentList.get(i).getBook().getTitle();
+          LocalDate startDate = rentList.get(i).getStartDate();
+          int period = rentList.get(i).getPeriod();
+          LocalDate endDate = rentList.get(i).getEndDate();
 
+          System.out.printf("%d | %s | %s | %s | %d | %s\n", no, name, title, startDate, period,
+              endDate);
+        }
+
+        int rentNo = prompt.inputInt("수정할 대여 정보 No [0 = 종료] >>");
+
+        if (rentNo == 0) {
+          System.out.println("입력을 종료합니다.");
+          return;
+        }
+
+        rent = rentList.rentByNo(rentNo);
+
+        if (rent == null) {
+          System.out.println("존재하지 않는 대여 정보입니다.");
+        } else {
+          break;
+        }
+      }
+
+      // 대여 회원 입력
+      User user;
+      while (true) {
+        userList.printUserListByNo();
+        int userNo = prompt.inputInt("사용자 No 입력 (%s) >>", rent.getUser().getName());
+        user = userList.userByNo(userNo);
+
+        if (user == null) {
+          System.out.println("잘못된 번호입니다.");
+        } else {
+          break;
+        }
+      }
+
+      // 대여할 책 입력
+      Book book;
+      while(true) {
+        bookList.printBookListByNo();
+        int bookNo = prompt.inputInt("책 No 입력 (%s) >>", rent.getBook().getTitle());
+        book = bookList.bookByISBN(bookNo);
+
+        if (book == null) {
+          System.out.println("잘못된 번호입니다.");
+        } else {
+          break;
+        }
+      }
+
+      // 대여 기간 입력 (대여일 = 오늘)
+      int period;
+      while(true) {
+        System.out.println("현재 대여 정보");
+        System.out.printf("대여 시작일 : %s\n", rent.getStartDate());
+        System.out.printf("대여 종료일 : %s\n", rent.getEndDate());
+        period = prompt.inputInt("대여 일수 (%d) 입력 >>", rent.getPeriod());
+
+        if (period > 30) {
+          Print.printSystem("한 달 이상은 대여할 수 없습니다.");
+        } else {
+          break;
+        }
+      }
+
+      rent.setUser(user);
+      rent.setBook(book);
+      rent.setPeriod(period);
     }
 
     void delete() {
+      System.out.println("No | 사용자 | 책 | 대여 시작일 | 대여 기간 | 대여 종료일");
+      for (int i = 0; i < rentList.size(); i++) {
+        int no = rentList.get(i).getNo();
+        String name = rentList.get(i).getUser().getName();
+        String title = rentList.get(i).getBook().getTitle();
+        LocalDate startDate = rentList.get(i).getStartDate();
+        int period = rentList.get(i).getPeriod();
+        LocalDate endDate = rentList.get(i).getEndDate();
 
+        System.out.printf("%d | %s | %s | %s | %d | %s\n", no, name, title, startDate, period, endDate);
+      }
+
+      int rentNo = prompt.inputInt("반납할 대여 정보 No [0 = 종료] >>");
+
+      if (rentNo == 0) {
+        return;
+      }
+      Rent rent = rentList.rentByNo(rentNo);
+      rentList.remove(rent);
     }
   }
 

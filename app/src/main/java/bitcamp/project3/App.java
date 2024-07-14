@@ -29,7 +29,7 @@ public class App {
     BookList<Book> bookList = new BookList<>();
     RentList<Rent> rentList = new RentList<>();
 
-    commandMap.put("대출 관리", new RentCommand(rentList));
+    commandMap.put("대출 관리", new RentCommand(rentList, userList, bookList));
     commandMap.put("도서 관리", new BookCommand(bookList));
     commandMap.put("사용자 관리", new UserCommand(userList));
   }

@@ -62,4 +62,8 @@ public class Rent {
     public void setPeriod(int period) {
         this.period = period;
     }
+
+    public LocalDate getEndDate() {
+        return startDate.plusDays(period);
+    }
 }
