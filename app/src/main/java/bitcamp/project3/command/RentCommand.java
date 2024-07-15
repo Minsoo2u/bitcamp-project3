@@ -59,7 +59,11 @@ public class RentCommand extends AbstractCommand {
       User user;
       while (true) {
         userList.printUserListByNo();
-        int userNo = prompt.inputInt("사용자 No 입력 >>");
+        int userNo = prompt.inputInt("사용자 No 입력 [0 = 취소] >>");
+        if (userNo == 0) {
+          print.printSystem("입력을 취소하였습니다.");
+          return;
+        }
         user = userList.userByNo(userNo);
 
         if (user == null) {
@@ -73,7 +77,11 @@ public class RentCommand extends AbstractCommand {
       Book book;
       while(true) {
         bookList.printBookListByNo();
-        int bookNo = prompt.inputInt("책 No 입력 >>");
+        int bookNo = prompt.inputInt("책 No 입력 [0 = 취소] >>");
+        if (bookNo == 0) {
+          print.printSystem("입력을 취소하였습니다.");
+          return;
+        }
         book = bookList.bookByISBN(bookNo);
 
         if (book == null) {
@@ -89,7 +97,7 @@ public class RentCommand extends AbstractCommand {
       // 대여 기간 입력 (대여일 = 오늘)
       int period;
       while(true) {
-        period = prompt.inputInt("대여 일수 입력 >>");
+        period = prompt.inputInt("대여 일수 입력 [0 = 취소] >>");
 
         if (period > 30) {
           print.printSystem("한 달 이상은 대여할 수 없습니다.");
