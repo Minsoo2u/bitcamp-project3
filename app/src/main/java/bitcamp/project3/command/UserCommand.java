@@ -94,6 +94,7 @@ public class UserCommand extends AbstractCommand {
         }
         break;
     }
+
   }
 
   protected void deleteUser() {
