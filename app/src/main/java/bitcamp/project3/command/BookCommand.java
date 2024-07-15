@@ -71,7 +71,6 @@ public class BookCommand extends AbstractCommand {
         prompt.inputIntWithRange(1300, 2025, "출판년도 (%d) >>", book.getPublishYear()));
 
     System.out.println("등록되었습니다.");
-
   }
 
   protected void readBook() {

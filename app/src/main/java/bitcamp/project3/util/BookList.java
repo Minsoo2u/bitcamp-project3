@@ -25,7 +25,7 @@ public class BookList<E> extends LinkedList<E> {
   }
 
   public void printBookListByNo() {
-    System.out.printf("ISBN | %s | %s | 출판년도\n",
+    System.out.printf("ISBN | %s | %s | 출판년도 | 대출여부 \n",
         print.printFittedString(Book.MAX_TITLE_LENGTH, "제목"),
         print.printFittedString(Book.MAX_AUTHOR_NAME_LENGTH, "저자"));
     System.out.println("---------------------------------------------------");
@@ -36,14 +36,15 @@ public class BookList<E> extends LinkedList<E> {
       String title = print.printFittedString(Book.MAX_TITLE_LENGTH, book.getTitle());
       String author = print.printFittedString(Book.MAX_AUTHOR_NAME_LENGTH, book.getAuthor());
       int publishYear = book.getPublishYear();
+      boolean isBorrowed = book.isBorrowed();
 
-      System.out.printf(" %02d  | %s | %s | %d \n", isbnNo, title, author, publishYear);
+      System.out.printf(" %02d  | %s | %s | %d | %s \n", isbnNo, title, author, publishYear, isBorrowed);
 
     }
   }
 
   public void printBookListByTitle() {
-    System.out.printf("%s | ISBN | %s | 출판년도\n",
+    System.out.printf("%s | ISBN | %s | 출판년도 | 대출여부 \n",
         print.printFittedString(Book.MAX_TITLE_LENGTH, "제목"),
         print.printFittedString(Book.MAX_AUTHOR_NAME_LENGTH, "저자"));
 
@@ -53,8 +54,9 @@ public class BookList<E> extends LinkedList<E> {
       String title = print.printFittedString(Book.MAX_TITLE_LENGTH, book.getTitle());
       String author = print.printFittedString(Book.MAX_AUTHOR_NAME_LENGTH, book.getAuthor());
       int publishYear = book.getPublishYear();
+      boolean isBorrowed = book.isBorrowed();
 
-      System.out.printf("%s |  %02d  | %s | %d \n", title, isbnNo, author, publishYear);
+      System.out.printf("%s |  %02d  | %s | %d | %s \n", title, isbnNo, author, publishYear, isBorrowed);
 
     }
   }

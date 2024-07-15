@@ -76,11 +76,14 @@ public class RentCommand extends AbstractCommand {
         int bookNo = prompt.inputInt("책 No 입력 >>");
         book = bookList.bookByISBN(bookNo);
 
-        if (book == null) {
+        if (book.isBorrowed() == true){
+          System.out.println("대출 중입니다.");
+        } else if (book == null) {
           System.out.println("잘못된 번호입니다.");
         } else {
           break;
         }
+
       }
 
       // 대여일 = 오늘
@@ -104,6 +107,8 @@ public class RentCommand extends AbstractCommand {
       rent.setPeriod(period);
 
       rentList.add(rent);
+
+      book.setBorrowed(true);
     }
 
     void read() {

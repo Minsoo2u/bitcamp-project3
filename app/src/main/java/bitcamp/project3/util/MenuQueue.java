@@ -13,7 +13,6 @@ public class MenuQueue<E> extends LinkedList<E> implements Queue<E> {
         stringBuilder.append("/");
       }
     }
-
     return stringBuilder.toString();
   }
 }
