@@ -39,7 +39,6 @@ public class BookList<E> extends LinkedList<E> {
       boolean isBorrowed = book.isBorrowed();
 
       System.out.printf(" %02d  | %s | %s | %d | %s \n", isbnNo, title, author, publishYear, isBorrowed);
-
     }
   }
 

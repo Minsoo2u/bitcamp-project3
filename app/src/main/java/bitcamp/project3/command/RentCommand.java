@@ -84,8 +84,8 @@ public class RentCommand extends AbstractCommand {
         }
         book = bookList.bookByISBN(bookNo);
 
-        if (book.isBorrowed() == true){
-          System.out.println("대출 중입니다.");
+        if (book.isBorrowed()){
+            System.out.println("대출 중입니다.");
         } else if (book == null) {
           System.out.println("잘못된 번호입니다.");
         } else {
