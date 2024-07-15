@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class PromptLibrary extends Prompt {
+  Print print = new Print();
 
   public int inputInt(String format, Object... args) {
     while (true) {
@@ -64,7 +65,7 @@ public class PromptLibrary extends Prompt {
             month = inputMonthWithDefault(inputMonthMessage, defaultMonth);
 
             if (month == defaultMonth) {
-              Calendar calendar = Print.printCalendar(year, month);
+              Calendar calendar = print.printCalendar(year, month);
 
               String inputDayMessage =
                   "일 입력 (1 ~ " + getMaxDay(calendar) + ", default = " + defaultDay
@@ -74,7 +75,7 @@ public class PromptLibrary extends Prompt {
               System.out.println("");
               return calendar;
             } else {
-              Calendar calendar = Print.printCalendar(year, month);
+              Calendar calendar = print.printCalendar(year, month);
 
               String inputDayMessage = "일 입력 (1 ~ " + getMaxDay(calendar) + ") >>";
               inputDayWithoutDefault(inputDayMessage, calendar);
@@ -85,7 +86,7 @@ public class PromptLibrary extends Prompt {
           } else {
             String inputMonthMessage = "월 입력(1 ~ 12) >>";
             month = inputMonthWithoutDefault(inputMonthMessage);
-            Calendar calendar = Print.printCalendar(year, month);
+            Calendar calendar = print.printCalendar(year, month);
 
             String inputDayMessage = "일 입력( ~ " + getMaxDay(calendar) + ") >>";
             inputDayWithoutDefault(inputDayMessage, calendar);

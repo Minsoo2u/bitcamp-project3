@@ -2,30 +2,32 @@ package bitcamp.project3.vo;
 
 public class User {
     private static int seqNo;
+    public static final int MAX_NAME_LENGTH = 6;
+    public static final int MAX_CONTACT_LENGTH = 12;
 
-    private int id;
+    private int no;
     private String name;
     private String contact;
 
     // 기본 생성자
     public User() {
-        this.id = ++seqNo;
+        this.no = ++seqNo;
     }
 
     // 파라미터가 있는 생성자
     public User(String name, String contact) {
-        this.id = ++seqNo;
+        this.no = ++seqNo;
         this.name = name;
         this.contact = contact;
     }
 
     // Getter 및 Setter 메서드
-    public int getId() {
-        return id;
+    public int getNo() {
+        return no;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setNo(int no) {
+        this.no = no;
     }
 
     public String getName() {
@@ -47,7 +49,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "no=" + no +
                 ", name='" + name + '\'' +
                 ", contact='" + contact + '\'' +
                 '}';

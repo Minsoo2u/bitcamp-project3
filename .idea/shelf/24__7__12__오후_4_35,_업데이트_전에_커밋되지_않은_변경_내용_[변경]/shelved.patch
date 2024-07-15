@@ -1,0 +1,316 @@
+Index: app/src/main/java/bitcamp/project3/vo/Book.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package bitcamp.project3.vo;\n\npublic class Book {\n    private static int seqNo = 0;\n\n    private String title;\n    private String author;\n    private int ISBN;\n    private int publishYear;\n    private boolean isBorrowed;\n\n    public Book() {\n        this.ISBN = ++seqNo;\n    }\n\n    public Book(String title, String author, int publishYear) {\n        this.title = title;\n        this.author = author;\n        this.ISBN = ++seqNo;\n        this.publishYear = publishYear;\n        this.isBorrowed = false;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public void setTitle(String title) {\n        this.title = title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public void setAuthor(String author) {\n        this.author = author;\n    }\n\n    public int getISBN() {\n        return ISBN;\n    }\n\n    public int getPublishYear() {\n        return publishYear;\n    }\n\n    public void setPublishYear(int publishYear) {\n        this.publishYear = publishYear;\n    }\n\n    public boolean isBorrowed() {\n        return isBorrowed;\n    }\n\n    public void setBorrowed(boolean borrowed) {\n        isBorrowed = borrowed;\n    }\n\n    @Override\n    public String toString() {\n        return \"Book{\" +\n                \"제목='\" + title + '\\'' +\n                \", 저자='\" + author + '\\'' +\n                \", ISBN=\" + ISBN +\n                \", 출판년도=\" + publishYear +\n                \", 대출중=\" + isBorrowed +\n                '}';\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/bitcamp/project3/vo/Book.java b/app/src/main/java/bitcamp/project3/vo/Book.java
+--- a/app/src/main/java/bitcamp/project3/vo/Book.java	(revision 902548480c86bf05620a52795fe7189d09585e8d)
++++ b/app/src/main/java/bitcamp/project3/vo/Book.java	(date 1720768552495)
+@@ -5,18 +5,19 @@
+ 
+     private String title;
+     private String author;
+-    private int ISBN;
++    private int no;
+     private int publishYear;
+     private boolean isBorrowed;
+ 
+     public Book() {
+-        this.ISBN = ++seqNo;
++        this.no = ++seqNo;
++        this.isBorrowed = false;
+     }
+ 
+     public Book(String title, String author, int publishYear) {
+         this.title = title;
+         this.author = author;
+-        this.ISBN = ++seqNo;
++        this.no = ++seqNo;
+         this.publishYear = publishYear;
+         this.isBorrowed = false;
+     }
+@@ -38,7 +39,7 @@
+     }
+ 
+     public int getISBN() {
+-        return ISBN;
++        return no;
+     }
+ 
+     public int getPublishYear() {
+@@ -62,7 +63,7 @@
+         return "Book{" +
+                 "제목='" + title + '\'' +
+                 ", 저자='" + author + '\'' +
+-                ", ISBN=" + ISBN +
++                ", ISBN=" + no +
+                 ", 출판년도=" + publishYear +
+                 ", 대출중=" + isBorrowed +
+                 '}';
+Index: app/src/main/java/bitcamp/project3/App.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package bitcamp.project3;\n\nimport bitcamp.project3.command.AbstractCommand;\nimport bitcamp.project3.command.BookCommand;\nimport bitcamp.project3.command.Command;\nimport bitcamp.project3.command.RentCommand;\nimport bitcamp.project3.command.UserCommand;\nimport bitcamp.project3.util.BookList;\nimport bitcamp.project3.util.Print;\nimport bitcamp.project3.util.PromptLibrary;\nimport bitcamp.project3.vo.Book;\nimport bitcamp.project3.vo.CommandMap;\nimport bitcamp.project3.vo.Rent;\nimport bitcamp.project3.vo.User;\nimport java.util.LinkedList;\nimport java.util.List;\nimport java.util.Map;\nimport java.util.Stack;\nimport org.checkerframework.checker.units.qual.A;\n\npublic class App {\n\n  String[] mainMenus = {\"대출 관리\", \"도서 관리\", \"사용자 관리\", \"종료\"};\n  String menuTitle = \"메인 메뉴\";\n  Stack<String> menuPath = new Stack<>();\n  AbstractCommand abstractCommand = new AbstractCommand();\n  Map<String, Command> commandMap = new CommandMap<>();\n  PromptLibrary prompt = new PromptLibrary();\n\n  App() {\n    List<User> userList = new LinkedList<>();\n    BookList<Book> bookList = new BookList<>();\n    List<Rent> rentList = new LinkedList<>();\n\n    commandMap.put(\"대출 관리\", new RentCommand());\n    commandMap.put(\"도서 관리\", new BookCommand(bookList));\n    commandMap.put(\"사용자 관리\", new UserCommand());\n  }\n\n  public static void main(String[] args) {\n    new App().execute();\n  }\n\n  void execute() {\n    menuPath.push(\"메인\");\n\n    while(true) {\n\n      Print.printTitle(menuTitle);\n      Print.printMenus(mainMenus);\n\n      int menuNo = prompt.inputIntWithRange(0, mainMenus.length - 1, \"%s>>\", abstractCommand.getMenuPath(menuPath));\n\n      processMenu(menuNo);\n\n      if (menuNo == 0) {\n        System.out.println(\"프로그램을 종료합니다.\");\n        prompt.close();\n        return;\n      }\n    }\n  }\n\n  String getMenuTitle(int menuNo) {\n    if (menuNo == 0) {\n      menuNo = mainMenus.length - 1;\n    } else {\n      menuNo -= 1;\n    }\n\n    return mainMenus[menuNo];\n  }\n\n  void processMenu(int menuNo) {\n    String menuTitle = getMenuTitle(menuNo);\n    Command command = commandMap.get(menuTitle);\n\n    if (command == null) {\n      System.out.println(\"존재하지 않는 메뉴입니다.\");\n      return;\n    }\n\n    command.execute();\n  }\n\n\n}// Class HomePage END\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/bitcamp/project3/App.java b/app/src/main/java/bitcamp/project3/App.java
+--- a/app/src/main/java/bitcamp/project3/App.java	(revision 902548480c86bf05620a52795fe7189d09585e8d)
++++ b/app/src/main/java/bitcamp/project3/App.java	(date 1720768896094)
+@@ -20,12 +20,11 @@
+ 
+ public class App {
+ 
+-  String[] mainMenus = {"대출 관리", "도서 관리", "사용자 관리", "종료"};
+-  String menuTitle = "메인 메뉴";
+-  Stack<String> menuPath = new Stack<>();
+-  AbstractCommand abstractCommand = new AbstractCommand();
+-  Map<String, Command> commandMap = new CommandMap<>();
+-  PromptLibrary prompt = new PromptLibrary();
++  private String[] mainMenus = {"대출 관리", "도서 관리", "사용자 관리", "종료"};
++  private String menuTitle = "메인 메뉴";
++  private Stack<String> menuPath = new Stack<>();
++  private CommandMap<String, Command> commandMap = new CommandMap<>();
++  private PromptLibrary prompt = new PromptLibrary();
+ 
+   App() {
+     List<User> userList = new LinkedList<>();
+@@ -48,10 +47,9 @@
+ 
+       Print.printTitle(menuTitle);
+       Print.printMenus(mainMenus);
++      int menuNo = prompt.inputIntWithRange(0, mainMenus.length - 1, "%s>>", AbstractCommand.getMenuPath(menuPath));
+ 
+-      int menuNo = prompt.inputIntWithRange(0, mainMenus.length - 1, "%s>>", abstractCommand.getMenuPath(menuPath));
+-
+-      processMenu(menuNo);
++      commandMap.commandExecute(getMenuTitle(menuNo));
+ 
+       if (menuNo == 0) {
+         System.out.println("프로그램을 종료합니다.");
+Index: app/src/main/java/bitcamp/project3/util/Prompt.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package bitcamp.project3.util;\n\nimport java.util.Scanner;\n\npublic class Prompt {\n\n  static Scanner keyboardScanner = new Scanner(System.in);\n\n  public String input(String format, Object... args) {\n    System.out.printf(format + \" \", args);\n    return keyboardScanner.nextLine();\n  }\n\n\n  public int inputInt(String format, Object... args) {\n    return Integer.parseInt(input(format, args));\n  }\n\n  public static void close() {\n    keyboardScanner.close();\n  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/bitcamp/project3/util/Prompt.java b/app/src/main/java/bitcamp/project3/util/Prompt.java
+--- a/app/src/main/java/bitcamp/project3/util/Prompt.java	(revision 902548480c86bf05620a52795fe7189d09585e8d)
++++ b/app/src/main/java/bitcamp/project3/util/Prompt.java	(date 1720768473540)
+@@ -16,7 +16,7 @@
+     return Integer.parseInt(input(format, args));
+   }
+ 
+-  public static void close() {
++  public void close() {
+     keyboardScanner.close();
+   }
+ }
+Index: app/src/main/java/bitcamp/project3/vo/CommandMap.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package bitcamp.project3.vo;\n\nimport java.util.HashMap;\n\npublic class CommandMap<K, V> extends HashMap<K, V> {\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/bitcamp/project3/vo/CommandMap.java b/app/src/main/java/bitcamp/project3/vo/CommandMap.java
+--- a/app/src/main/java/bitcamp/project3/vo/CommandMap.java	(revision 902548480c86bf05620a52795fe7189d09585e8d)
++++ b/app/src/main/java/bitcamp/project3/vo/CommandMap.java	(date 1720768367598)
+@@ -1,7 +1,16 @@
+ package bitcamp.project3.vo;
+ 
++import bitcamp.project3.command.Command;
+ import java.util.HashMap;
++import java.util.Map;
+ 
+-public class CommandMap<K, V> extends HashMap<K, V> {
++public class CommandMap<K, V> extends HashMap<K, V> implements Map<K, V> {
+ 
++  public void commandExecute(K Key) {
++    if (this.containsKey(Key)){
++      ((Command) this.get(Key)).execute();
++    } else {
++      System.out.println("존재하지 않는 메뉴입니다.");
++    }
++  }
+ }
+Index: app/src/main/java/bitcamp/project3/command/AbstractCommand.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package bitcamp.project3.command;\n\nimport bitcamp.project3.util.Prompt;\nimport bitcamp.project3.util.Print;\n\nimport java.util.Stack;\n\npublic abstract class AbstractCommand implements Command {\n\n  @Override\n  public void create() {\n  }\n\n  @Override\n  public void read() {\n  }\n\n  @Override\n  public void update() {\n  }\n\n  @Override\n  public void delete() {\n  }\n\n  public String getMenuPath(Stack<String> menuPath) {\n    StringBuilder stringBuilder = new StringBuilder();\n\n    for (int i = 0; i < menuPath.size(); i++) {\n      stringBuilder.append(menuPath.get(i));\n      if (i == menuPath.size() - 1) {\n        stringBuilder.append(\"/\");\n      }\n    }\n\n    return stringBuilder.toString();\n  }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/bitcamp/project3/command/AbstractCommand.java b/app/src/main/java/bitcamp/project3/command/AbstractCommand.java
+--- a/app/src/main/java/bitcamp/project3/command/AbstractCommand.java	(revision 902548480c86bf05620a52795fe7189d09585e8d)
++++ b/app/src/main/java/bitcamp/project3/command/AbstractCommand.java	(date 1720768827052)
+@@ -23,12 +23,12 @@
+   public void delete() {
+   }
+ 
+-  public String getMenuPath(Stack<String> menuPath) {
++  public static String getMenuPath(Stack<String> menuPath) {
+     StringBuilder stringBuilder = new StringBuilder();
+ 
+     for (int i = 0; i < menuPath.size(); i++) {
+       stringBuilder.append(menuPath.get(i));
+-      if (i == menuPath.size() - 1) {
++      if (i != menuPath.size() - 1) {
+         stringBuilder.append("/");
+       }
+     }
+Index: app/src/main/java/bitcamp/project3/command/BookCommand2.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/bitcamp/project3/command/BookCommand2.java b/app/src/main/java/bitcamp/project3/command/BookCommand2.java
+new file mode 100644
+--- /dev/null	(date 1720769722864)
++++ b/app/src/main/java/bitcamp/project3/command/BookCommand2.java	(date 1720769722864)
+@@ -0,0 +1,142 @@
++package bitcamp.project3.command;
++
++import bitcamp.project3.util.BookList;
++import bitcamp.project3.util.Print;
++import bitcamp.project3.util.PromptLibrary;
++import bitcamp.project3.vo.Book;
++import java.util.Stack;
++
++public class BookCommand2 extends AbstractCommand {
++
++  private String menuTitle = "도서 관리";
++  private BookList<Book> bookList;
++  private PromptLibrary prompt = new PromptLibrary();
++  private String[] menus = {"등록", "수정", "조회", "삭제", "이전"};
++  private Stack<String> menuPath = new Stack<>();
++
++  public BookCommand2(BookList<Book> list) {
++    this.bookList = list;
++    }
++
++  public void execute() {
++    menuPath.push()
++    while(true) {
++      Print.printTitle(menuTitle);
++      Print.printMenus(menus);
++
++      int menuNo = prompt.inputIntWithRange(0, 4, "메뉴 선택 >>");
++
++      switch (menuNo) {
++        case 1:
++          this.createBook();
++          break;
++        case 2:
++          this.updateBook();
++          break;
++        case 3:
++          this.readBook();
++          break;
++        case 4:
++          this.deleteBook();
++          break;
++        case 0:
++          return;
++
++      }
++    }
++  }
++
++  protected void createBook() {
++    Book book = new Book();
++
++    book.setTitle(prompt.input("책 제목 >>"));
++    book.setAuthor(prompt.input("책 저자 >>"));
++    book.setPublishYear(prompt.inputIntWithRange(1300, 2025, "출판년도 >>"));
++
++    bookList.add(book);
++    System.out.println("등록되었습니다.");
++  }
++
++  protected void updateBook() {
++    // 전체 도서를 띄우는 메서드 추가
++
++    int isbnNo = prompt.inputInt("ISBN 번호 선택 >>");
++    Book book = bookList.bookByISBN(isbnNo);
++
++    book.setTitle(prompt.input("책 제목 >>"));
++    book.setAuthor(prompt.input("책 저자 >>"));
++    book.setPublishYear(prompt.inputIntWithRange(1300, 2025, "출판년도 >>"));
++
++    System.out.println("등록되었습니다.");
++
++  }
++
++  protected void readBook() {
++    String[] menus = {"번호순 조회", "이름순 조회", "이전"};
++
++    Print.printTitle("도서 조회");
++    Print.printMenus(menus);
++
++    int menuNo = prompt.inputIntWithRange(0, menus.length-1, "메뉴 선택 >>");
++
++    switch(menuNo) {
++      case 1:
++        System.out.println("ISBN | 제목 | 저자 | 출판년도");
++        for (int i = 0; i < bookList.size(); i++) {
++          int isbnNo = bookList.get(i).getISBN();
++          String title = bookList.get(i).getTitle();
++          String author = bookList.get(i).getAuthor();
++          int publishYear = bookList.get(i).getPublishYear();
++
++          System.out.printf("%d | %s | %s | %d \n", isbnNo, title, author, publishYear);
++
++        }
++        break;
++
++      case 2:
++        System.out.println("제목 | ISBN | 저자 | 출판년도");
++        for (int i = 0; i < bookList.size(); i++) {
++          int isbnNo = bookList.get(i).getISBN();
++          String title = bookList.get(i).getTitle();
++          String author = bookList.get(i).getAuthor();
++          int publishYear = bookList.get(i).getPublishYear();
++
++          System.out.printf("%s | %d | %s | %d \n", title, isbnNo, author, publishYear);
++
++        }
++        break;
++
++
++    }
++  }
++
++  protected void deleteBook() {
++    Print.printTitle("도서 삭제");
++
++    System.out.println("ISBN | 제목 | 저자 | 출판년도");
++    for (int i = 0; i < bookList.size(); i++) {
++      int isbnNo = bookList.get(i).getISBN();
++      String title = bookList.get(i).getTitle();
++      String author = bookList.get(i).getAuthor();
++      int publishYear = bookList.get(i).getPublishYear();
++
++      System.out.printf("%d | %s | %s | %d \n", isbnNo, title, author, publishYear);
++
++    }
++
++    while(true) {
++      int isbnNo = prompt.inputInt("ISBN 번호 입력 >>");
++      int indexNo = bookList.indexByISBN(isbnNo);
++
++      if (isbnNo == -1){
++        System.out.println("입력한 번호는 유효하지 않은 번호입니다.");
++      } else {
++        bookList.remove(indexNo);
++        return;
++      }
++
++    }
++  }
++
++  }
++
