@@ -1,15 +1,16 @@
 package bitcamp.project3;
 
-import bitcamp.project3.command.AbstractCommand;
+import bitcamp.menu.MenuGroup;
+import bitcamp.menu.MenuItem;
 import bitcamp.project3.command.BookCommand;
 import bitcamp.project3.command.Command;
 import bitcamp.project3.command.RentCommand;
 import bitcamp.project3.command.UserCommand;
-import bitcamp.project3.util.BookList;
-import bitcamp.project3.util.Print;
-import bitcamp.project3.util.PromptLibrary;
-import bitcamp.project3.util.RentList;
-import bitcamp.project3.util.UserList;
+import bitcamp.project3.vo.BookList;
+import bitcamp.util.Print;
+import bitcamp.util.PromptLibrary;
+import bitcamp.project3.vo.RentList;
+import bitcamp.project3.vo.UserList;
 import bitcamp.project3.vo.Book;
 import bitcamp.project3.vo.CommandMap;
 import bitcamp.project3.vo.Rent;
@@ -24,11 +25,19 @@ public class App {
   private CommandMap<String, Command> commandMap = new CommandMap<>();
   private PromptLibrary prompt = new PromptLibrary();
   private Print print = new Print();
+  private MenuGroup mainMenu = new MenuGroup("메인");
 
   App() {
     UserList<User> userList = new UserList<>();
     BookList<Book> bookList = new BookList<>();
     RentList<Rent> rentList = new RentList<>();
+
+    MenuGroup rent = new MenuGroup("대출 관리");
+    MenuItem rentCreate = new MenuItem("도서 대출", RentCreateCommand);
+    rent.add(MenuItem())
+    MenuGroup book = new MenuGroup("도서 관리");
+    MenuGroup user = new MenuGroup("사용자 관리");
+    mainMenu.setExitMenuTitle("종료");
 
     commandMap.put("대출 관리", new RentCommand(rentList, userList, bookList));
     commandMap.put("도서 관리", new BookCommand(bookList));

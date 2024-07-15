@@ -1,6 +1,6 @@
-package bitcamp.project3.util;
+package bitcamp.project3.vo;
 
-import bitcamp.project3.vo.Book;
+import bitcamp.util.Print;
 import java.util.LinkedList;
 
 public class BookList<E> extends LinkedList<E> {

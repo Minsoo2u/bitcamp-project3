@@ -4,5 +4,5 @@ import java.util.Stack;
 
 public interface Command {
 
-  void execute(Stack<String> menuPath);
+  void execute(String title);
 }

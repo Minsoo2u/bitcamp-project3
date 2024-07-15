@@ -1,8 +1,6 @@
-package bitcamp.project3.util;
+package bitcamp.project3.vo;
 
-import bitcamp.project3.vo.Book;
-import bitcamp.project3.vo.Rent;
-import bitcamp.project3.vo.User;
+import bitcamp.util.Print;
 import java.time.LocalDate;
 import java.util.LinkedList;
 

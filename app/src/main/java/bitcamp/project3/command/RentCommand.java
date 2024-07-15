@@ -1,10 +1,10 @@
 package bitcamp.project3.command;
 
-import bitcamp.project3.util.BookList;
-import bitcamp.project3.util.Print;
-import bitcamp.project3.util.PromptLibrary;
-import bitcamp.project3.util.RentList;
-import bitcamp.project3.util.UserList;
+import bitcamp.project3.vo.BookList;
+import bitcamp.util.Print;
+import bitcamp.util.PromptLibrary;
+import bitcamp.project3.vo.RentList;
+import bitcamp.project3.vo.UserList;
 import bitcamp.project3.vo.Book;
 import bitcamp.project3.vo.Rent;
 import bitcamp.project3.vo.User;

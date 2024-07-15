@@ -1,4 +1,4 @@
-package bitcamp.project3.util;
+package bitcamp.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

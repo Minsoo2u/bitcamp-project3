@@ -1,7 +1,7 @@
-package bitcamp.project3.util;
+package bitcamp.project3.vo;
 
 
-import bitcamp.project3.vo.User;
+import bitcamp.util.Print;
 import java.util.LinkedList;
 
 public class UserList<E> extends LinkedList<E> {
