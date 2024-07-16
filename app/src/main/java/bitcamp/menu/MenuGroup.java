@@ -1,5 +1,6 @@
 package bitcamp.menu;
 
+import bitcamp.util.Ansi;
 import bitcamp.util.PromptLibrary;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -53,12 +54,12 @@ public class MenuGroup extends AbstractMenu {
   private void printMenus() {
     int i = 1;
     for (Menu menu : children) {
-      System.out.println(i + ". " + menu.getTitle());
+      System.out.println(i++ + ". " + menu.getTitle());
     }
-    System.out.println("0. " + exitMenuTitle);
+    System.out.println(Ansi.RED.getName() + "0. " + exitMenuTitle + Ansi.INIT.getName());
   }
 
-  private String getMenuPathTitle() {
+  public String getMenuPathTitle() {
     StringBuilder stringBuilder = new StringBuilder();
 
     for (int i = 0; i < menuPath.size(); i++) {

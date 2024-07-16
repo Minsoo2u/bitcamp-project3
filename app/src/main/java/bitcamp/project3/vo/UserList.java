@@ -7,18 +7,18 @@ import java.util.LinkedList;
 public class UserList<E> extends LinkedList<E> {
   Print print = new Print();
 
-  public User userByNo(int no) {
-    for (E e : this) {
-      if (((User) e).getNo() == no) {
-        return (User) e;
+  public E userByID(int id) {
+    for (E user : this) {
+      if (((User)user).getNo() == id) {
+        return user;
       }
     }
     return null;
   }
 
-  public int indexByNo(int no) {
+  public int indexByID(int id) {
     for (int i = 0; i < this.size(); i++) {
-      if (((User) this.get(i)).getNo() == no) {
+      if (((User) this.get(i)).getNo() == id) {
         return i;
       }
     }
