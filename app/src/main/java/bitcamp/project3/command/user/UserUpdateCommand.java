@@ -25,8 +25,8 @@ public class UserUpdateCommand implements Command {
       return;
     }
 
-    user.setName(prompt.input("이름 >>"));
-    user.setContact(prompt.input("연락처 >>"));
+    user.setName(prompt.input("이름 (%s) >>", user.getName()));
+    user.setContact(prompt.input("연락처 (%s) >>", user.getContact()));
 
     System.out.println("수정되었습니다.");
   }

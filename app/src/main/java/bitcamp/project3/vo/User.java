@@ -8,10 +8,12 @@ public class User {
     private int no;
     private String name;
     private String contact;
+    private int rentLimit;
 
     // 기본 생성자
     public User() {
         this.no = ++seqNo;
+        this.rentLimit = 3;
     }
 
     // 파라미터가 있는 생성자
@@ -19,6 +21,7 @@ public class User {
         this.no = ++seqNo;
         this.name = name;
         this.contact = contact;
+        this.rentLimit = 3;
     }
 
     // Getter 및 Setter 메서드
@@ -44,6 +47,18 @@ public class User {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public int getRentLimit() {
+        return rentLimit;
+    }
+
+    public void setRentLimit(int rentLimit) {
+        this.rentLimit = rentLimit;
+    }
+
+    public boolean isBorrowable() {
+        return rentLimit > 0;
     }
 
     @Override

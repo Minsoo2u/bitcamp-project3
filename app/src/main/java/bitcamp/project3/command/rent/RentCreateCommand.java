@@ -40,8 +40,13 @@ public class RentCreateCommand implements Command {
       }
       user = userList.userByID(userID);
 
+      if (!user.isBorrowable()){
+        print.printSystem("더 이상 대여할 수 없습니다.");
+        continue;
+      }
+
       if (user == null) {
-        System.out.println("잘못된 번호입니다.");
+        print.printSystem("잘못된 번호입니다.");
       } else {
         break;
       }
@@ -58,10 +63,10 @@ public class RentCreateCommand implements Command {
       }
       book = bookList.bookByISBN(bookNo);
 
-      if (book.isBorrowed()){
-        System.out.println("대출 중입니다.");
+      if (!book.borrowable()){
+        print.printSystem("재고가 없습니다.");
       } else if (book == null) {
-        System.out.println("잘못된 번호입니다.");
+        print.printSystem("잘못된 번호입니다.");
       } else {
         break;
       }
@@ -89,7 +94,7 @@ public class RentCreateCommand implements Command {
     rent.setPeriod(period);
 
     rentList.add(rent);
-
-    book.setBorrowed(true);
+    user.setRentLimit(user.getRentLimit() - 1);
+    book.setAmount(book.getAmount() - 1);
   }
   }

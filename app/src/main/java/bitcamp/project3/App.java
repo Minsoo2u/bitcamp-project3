@@ -2,6 +2,7 @@ package bitcamp.project3;
 
 import bitcamp.menu.MenuGroup;
 import bitcamp.menu.MenuItem;
+import bitcamp.project3.command.AddDummyData;
 import bitcamp.project3.command.book.BookCreateCommand;
 import bitcamp.project3.command.book.BookDeleteCommand;
 import bitcamp.project3.command.book.BookReadCommand;
@@ -69,6 +70,10 @@ public class App {
     user.add(userDelete);
     user.add(userUpdate);
     user.add(userRead);
+
+
+    MenuItem addDummy = new MenuItem("더미 데이터 생성", new AddDummyData(userList, bookList));
+    mainMenu.add(addDummy);
   }
 
   public static void main(String[] args) {

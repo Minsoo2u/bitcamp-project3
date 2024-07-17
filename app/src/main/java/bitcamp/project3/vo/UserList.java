@@ -26,10 +26,11 @@ public class UserList<E> extends LinkedList<E> {
   }
 
   public void printUserListByNo() {
-    System.out.printf("ID | %s | %s\n",
+    System.out.printf("ID | %s | %s | %s\n",
         print.printFittedString(User.MAX_NAME_LENGTH, "이름"),
-        print.printFittedString(User.MAX_CONTACT_LENGTH, "연락처"));
-    System.out.println("---------------------------------------------------------------------------");
+        print.printFittedString(User.MAX_CONTACT_LENGTH, "연락처"),
+        "대출 가능 권수");
+    System.out.println("---------------------------------------------");
 
     for (int i = 0; i < this.size(); i++) {
       User user = (User) this.get(i);
@@ -37,15 +38,16 @@ public class UserList<E> extends LinkedList<E> {
       int no = user.getNo();
       String userName = print.printFittedString(User.MAX_NAME_LENGTH, user.getName());
       String contact = print.printFittedString(User.MAX_CONTACT_LENGTH, user.getContact());
-      System.out.printf("%02d | %s | %s \n", no, userName, contact);
+      System.out.printf("%02d | %s | %s |      %d \n", no, userName, contact, user.getRentLimit());
     }
   }
 
   public void printUserListByName() {
-    System.out.printf("%s | ID | %s\n",
+    System.out.printf("%s | ID | %s | %s\n",
         print.printFittedString(User.MAX_NAME_LENGTH, "이름"),
-        print.printFittedString(User.MAX_CONTACT_LENGTH, "연락처"));
-    System.out.println("--------------------------");
+        print.printFittedString(User.MAX_CONTACT_LENGTH, "연락처"),
+        "대출 가능 권수");
+    System.out.println("---------------------------------------------");
 
     for (int i = 0; i < this.size(); i++) {
       User user = (User) this.get(i);
@@ -53,7 +55,7 @@ public class UserList<E> extends LinkedList<E> {
       int no = user.getNo();
       String userName = print.printFittedString(User.MAX_NAME_LENGTH, user.getName());
       String contact = print.printFittedString(User.MAX_CONTACT_LENGTH, user.getContact());
-      System.out.printf("%s | %02d | %s \n", userName, no, contact);
+      System.out.printf("%s | %02d | %s | %d\n", userName, no, contact, user.getRentLimit());
     }
   }
 

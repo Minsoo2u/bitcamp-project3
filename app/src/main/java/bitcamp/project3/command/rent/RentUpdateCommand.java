@@ -9,6 +9,7 @@ import bitcamp.project3.vo.User;
 import bitcamp.project3.vo.UserList;
 import bitcamp.util.Print;
 import bitcamp.util.PromptLibrary;
+import java.time.LocalDate;
 
 public class RentUpdateCommand implements Command {
 
@@ -48,8 +49,17 @@ public class RentUpdateCommand implements Command {
     User user;
     while (true) {
       userList.printUserListByNo();
-      int userID = prompt.inputInt("사용자 ID 입력 (%s) >>", rent.getUser().getName());
+      int userID = prompt.inputInt("사용자 ID 입력 [0 = 취소] >>");
+      if (userID == 0) {
+        print.printSystem("입력을 취소하였습니다.");
+        return;
+      }
       user = userList.userByID(userID);
+
+      if (!user.isBorrowable()){
+        System.out.println("더 이상 대여할 수 없습니다.");
+        continue;
+      }
 
       if (user == null) {
         System.out.println("잘못된 번호입니다.");
@@ -62,23 +72,30 @@ public class RentUpdateCommand implements Command {
     Book book;
     while(true) {
       bookList.printBookListByNo();
-      int bookNo = prompt.inputInt("책 No 입력 (%s) >>", rent.getBook().getTitle());
+      int bookNo = prompt.inputInt("책 No 입력 [0 = 취소] >>");
+      if (bookNo == 0) {
+        print.printSystem("입력을 취소하였습니다.");
+        return;
+      }
       book = bookList.bookByISBN(bookNo);
 
-      if (book == null) {
+      if (!book.borrowable()){
+        System.out.println("모든 책이 대출 중입니다.");
+      } else if (book == null) {
         System.out.println("잘못된 번호입니다.");
       } else {
         break;
       }
+
     }
+
+    // 대여일 = 오늘
+    LocalDate startDate = LocalDate.now();
 
     // 대여 기간 입력 (대여일 = 오늘)
     int period;
     while(true) {
-      System.out.println("현재 대여 정보");
-      System.out.printf("대여 시작일 : %s\n", rent.getStartDate());
-      System.out.printf("대여 종료일 : %s\n", rent.getEndDate());
-      period = prompt.inputInt("대여 일수 (%d) 입력 >>", rent.getPeriod());
+      period = prompt.inputInt("대여 일수 입력 [0 = 취소] >>");
 
       if (period > 30) {
         print.printSystem("한 달 이상은 대여할 수 없습니다.");

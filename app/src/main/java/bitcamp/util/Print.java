@@ -19,7 +19,9 @@ public class Print {
   }
 
   public void printSystem(String str) {
+    System.out.println();
     System.out.println(Ansi.RED.getName() + "[System] " + str + Ansi.INIT.getName());
+    System.out.println();
   }
 
   public Calendar printCalendar(int year, int month) {

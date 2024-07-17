@@ -9,19 +9,18 @@ public class Book {
     private String author;
     private int ISBN;
     private int publishYear;
-    private boolean isBorrowed;
+    private int amount;
 
     public Book() {
         this.ISBN = ++seqNo;
-        this.isBorrowed = false;
     }
 
-    public Book(String title, String author, int publishYear) {
+    public Book(String title, String author, int publishYear, int amount) {
         this.title = title;
         this.author = author;
         this.ISBN = ++seqNo;
         this.publishYear = publishYear;
-        this.isBorrowed = false;
+        this.amount = amount;
     }
 
     public String getTitle() {
@@ -52,13 +51,18 @@ public class Book {
         this.publishYear = publishYear;
     }
 
-    public boolean isBorrowed() {
-        return isBorrowed;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setBorrowed(boolean borrowed) {
-        isBorrowed = borrowed;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
+
+    public boolean borrowable() {
+        return amount > 0;
+    }
+
 
     @Override
     public String toString() {
@@ -67,7 +71,7 @@ public class Book {
                 ", 저자='" + author + '\'' +
                 ", ISBN=" + ISBN +
                 ", 출판년도=" + publishYear +
-                ", 대출중=" + isBorrowed +
+                ", 대출중=" + borrowable() +
                 '}';
     }
 }

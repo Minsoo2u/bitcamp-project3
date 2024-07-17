@@ -36,6 +36,9 @@ public class BookReadCommand implements Command {
       case 2:
         bookList.printBookListByTitle();
         break;
+
+      case 0:
+        break;
     }
   }
 }

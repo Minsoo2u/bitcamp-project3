@@ -29,6 +29,7 @@ public class BookUpdateCommand implements Command {
     book.setAuthor(prompt.input("책 저자 (%s) >>", book.getAuthor()));
     book.setPublishYear(
         prompt.inputIntWithRange(1300, 2025, "출판년도 (%d) >>", book.getPublishYear()));
+    book.setAmount(prompt.inputIntWithRange(0, 20, "책 개수 (%d) >>", book.getAmount()));
 
     System.out.println("등록되었습니다.");
   }

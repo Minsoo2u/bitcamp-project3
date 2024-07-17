@@ -20,6 +20,7 @@ public class BookCreateCommand implements Command {
     book.setTitle(prompt.input("책 제목 >>"));
     book.setAuthor(prompt.input("책 저자 >>"));
     book.setPublishYear(prompt.inputIntWithRange(1300, 2025, "출판년도 >>"));
+    book.setAmount(prompt.inputIntWithRange(0, 20, "책 개수>>"));
 
     bookList.add(book);
     System.out.println("등록되었습니다.");
