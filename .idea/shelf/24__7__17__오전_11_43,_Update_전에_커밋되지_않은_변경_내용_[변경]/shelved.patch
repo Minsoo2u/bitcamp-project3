@@ -1,0 +1,59 @@
+Index: app/src/main/java/bitcamp/project3/command/RentCommand.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package bitcamp.project3.command;\r\n\r\nimport bitcamp.project3.util.BookList;\r\nimport bitcamp.project3.util.Print;\r\nimport bitcamp.project3.util.PromptLibrary;\r\nimport bitcamp.project3.util.RentList;\r\nimport bitcamp.project3.util.UserList;\r\nimport bitcamp.project3.vo.Book;\r\nimport bitcamp.project3.vo.Rent;\r\nimport bitcamp.project3.vo.User;\r\nimport java.time.LocalDate;\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\nimport java.util.Stack;\r\n\r\npublic class RentCommand extends AbstractCommand {\r\n\r\n  private String menuTitle = \"대출 관리\";\r\n  private RentList<Rent> rentList;\r\n  private PromptLibrary prompt = new PromptLibrary();\r\n  private String[] menus = {\"도서 대출\", \"도서 반납\", \"대출 조회\", \"대출 수정\", \"이전\"};\r\n  private Map<String, CrudCommand> crudMap = new HashMap<>();\r\n  private UserList<User> userList;\r\n  private BookList<Book> bookList;\r\n  private Print print = new Print();\r\n\r\n  public RentCommand(RentList<Rent> rentList, UserList<User> userList, BookList<Book> bookList) {\r\n    this.rentList = rentList;\r\n    this.bookList = bookList;\r\n    this.userList = userList;\r\n    crudMap.put(\"도서 대출\", new CommandFunc()::create);\r\n    crudMap.put(\"도서 반납\", new CommandFunc()::delete);\r\n    crudMap.put(\"대출 조회\", new CommandFunc()::read);\r\n    crudMap.put(\"대출 수정\", new CommandFunc()::update);\r\n  }\r\n\r\n  @Override\r\n  public void execute(Stack<String> menuPath) {\r\n    while (true) {\r\n      print.printTitle(menuTitle);\r\n      print.printMenus(menus);\r\n\r\n      int menuNo = prompt.inputIntWithRange(0, 4, \"%s >>\", getMenuPath(menuPath));\r\n\r\n      if (menuNo == 0) {\r\n        menuPath.pop();\r\n        return;\r\n      }\r\n      CrudCommand command = crudMap.get(getMenuTitle(menuNo, menus));\r\n      command.execute();\r\n    }\r\n  }\r\n\r\n  private class CommandFunc {\r\n    void create() {\r\n      Rent rent = new Rent();\r\n\r\n      // 대여 회원 입력\r\n      User user;\r\n      while (true) {\r\n        userList.printUserListByNo();\r\n        int userNo = prompt.inputInt(\"사용자 No 입력 [0 = 취소] >>\");\r\n        if (userNo == 0) {\r\n          print.printSystem(\"입력을 취소하였습니다.\");\r\n          return;\r\n        }\r\n        user = userList.userByNo(userNo);\r\n\r\n        if (user == null) {\r\n          System.out.println(\"잘못된 번호입니다.\");\r\n        } else {\r\n          break;\r\n        }\r\n      }\r\n\r\n      // 대여할 책 입력\r\n      Book book;\r\n      while(true) {\r\n        bookList.printBookListByNo();\r\n        int bookNo = prompt.inputInt(\"책 No 입력 [0 = 취소] >>\");\r\n        if (bookNo == 0) {\r\n          print.printSystem(\"입력을 취소하였습니다.\");\r\n          return;\r\n        }\r\n        book = bookList.bookByISBN(bookNo);\r\n\r\n        if (book.isBorrowed()){\r\n            System.out.println(\"대출 중입니다.\");\r\n        } else if (book == null) {\r\n          System.out.println(\"잘못된 번호입니다.\");\r\n        } else {\r\n          break;\r\n        }\r\n\r\n      }\r\n\r\n      // 대여일 = 오늘\r\n      LocalDate startDate = LocalDate.now();\r\n\r\n      // 대여 기간 입력 (대여일 = 오늘)\r\n      int period;\r\n      while(true) {\r\n        period = prompt.inputInt(\"대여 일수 입력 [0 = 취소] >>\");\r\n\r\n        if (period > 30) {\r\n          print.printSystem(\"한 달 이상은 대여할 수 없습니다.\");\r\n        } else {\r\n          break;\r\n        }\r\n      }\r\n\r\n      rent.setUser(user);\r\n      rent.setBook(book);\r\n      rent.setStartDate(startDate);\r\n      rent.setPeriod(period);\r\n\r\n      rentList.add(rent);\r\n\r\n      book.setBorrowed(true);\r\n    }\r\n\r\n    void read() {\r\n      rentList.printRentListByNo();\r\n    }\r\n\r\n    void update() {\r\n      Rent rent;\r\n      while(true) {\r\n        rentList.printRentListByNo();\r\n\r\n        int rentNo = prompt.inputInt(\"수정할 대여 정보 No [0 = 종료] >>\");\r\n        if (rentNo == 0) {\r\n          System.out.println(\"입력을 종료합니다.\");\r\n          return;\r\n        }\r\n        rent = rentList.rentByNo(rentNo);\r\n\r\n        if (rent == null) {\r\n          System.out.println(\"존재하지 않는 대여 정보입니다.\");\r\n        } else {\r\n          break;\r\n        }\r\n      }\r\n\r\n      // 대여 회원 입력\r\n      User user;\r\n      while (true) {\r\n        userList.printUserListByNo();\r\n        int userNo = prompt.inputInt(\"사용자 No 입력 (%s) >>\", rent.getUser().getName());\r\n        user = userList.userByNo(userNo);\r\n\r\n        if (user == null) {\r\n          System.out.println(\"잘못된 번호입니다.\");\r\n        } else {\r\n          break;\r\n        }\r\n      }\r\n\r\n      // 대여할 책 입력\r\n      Book book;\r\n      while(true) {\r\n        bookList.printBookListByNo();\r\n        int bookNo = prompt.inputInt(\"책 No 입력 (%s) >>\", rent.getBook().getTitle());\r\n        book = bookList.bookByISBN(bookNo);\r\n\r\n        if (book == null) {\r\n          System.out.println(\"잘못된 번호입니다.\");\r\n        } else {\r\n          break;\r\n        }\r\n      }\r\n\r\n      // 대여 기간 입력 (대여일 = 오늘)\r\n      int period;\r\n      while(true) {\r\n        System.out.println(\"현재 대여 정보\");\r\n        System.out.printf(\"대여 시작일 : %s\\n\", rent.getStartDate());\r\n        System.out.printf(\"대여 종료일 : %s\\n\", rent.getEndDate());\r\n        period = prompt.inputInt(\"대여 일수 (%d) 입력 >>\", rent.getPeriod());\r\n\r\n        if (period > 30) {\r\n          print.printSystem(\"한 달 이상은 대여할 수 없습니다.\");\r\n        } else {\r\n          break;\r\n        }\r\n      }\r\n\r\n      rent.setUser(user);\r\n      rent.setBook(book);\r\n      rent.setPeriod(period);\r\n    }\r\n\r\n    void delete() {\r\n      int rentNo = prompt.inputInt(\"반납할 대여 정보 No [0 = 종료] >>\");\r\n\r\n      if (rentNo == 0) {\r\n        return;\r\n      }\r\n      Rent rent = rentList.rentByNo(rentNo);\r\n      rentList.remove(rent);\r\n    }\r\n  }\r\n\r\n}\r\n
+===================================================================
+diff --git a/app/src/main/java/bitcamp/project3/command/RentCommand.java b/app/src/main/java/bitcamp/project3/command/RentCommand.java
+--- a/app/src/main/java/bitcamp/project3/command/RentCommand.java	
++++ b/app/src/main/java/bitcamp/project3/command/RentCommand.java	
+@@ -117,6 +117,7 @@
+       rentList.add(rent);
+ 
+       book.setBorrowed(true);
++
+     }
+ 
+     void read() {
+@@ -192,11 +193,11 @@
+ 
+     void delete() {
+       int rentNo = prompt.inputInt("반납할 대여 정보 No [0 = 종료] >>");
+-
+       if (rentNo == 0) {
+         return;
+       }
+       Rent rent = rentList.rentByNo(rentNo);
++      rent.getBook().setBorrowed(false);
+       rentList.remove(rent);
+     }
+   }
+Index: app/src/main/java/bitcamp/project3/util/BookList.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package bitcamp.project3.util;\r\n\r\nimport bitcamp.project3.vo.Book;\r\nimport java.util.LinkedList;\r\n\r\npublic class BookList<E> extends LinkedList<E> {\r\n  Print print = new Print();\r\n\r\n  public Book bookByISBN(int ISBN) {\r\n    for (int i = 0; i < this.size(); i++) {\r\n      if (((Book) this.get(i)).getISBN() == ISBN) {\r\n        return (Book) this.get(i);\r\n      }\r\n    }\r\n    return null;\r\n  }\r\n\r\n  public int indexByISBN(int ISBN) {\r\n    for (int i = 0; i < this.size(); i++) {\r\n      if (((Book) this.get(i)).getISBN() == ISBN) {\r\n        return i;\r\n      }\r\n    }\r\n    return -1;\r\n  }\r\n\r\n  public void printBookListByNo() {\r\n    System.out.printf(\"ISBN | %s | %s | 출판년도 | 대출여부 \\n\",\r\n        print.printFittedString(Book.MAX_TITLE_LENGTH, \"제목\"),\r\n        print.printFittedString(Book.MAX_AUTHOR_NAME_LENGTH, \"저자\"));\r\n    System.out.println(\"---------------------------------------------------\");\r\n\r\n    for (int i = 0; i < this.size(); i++) {\r\n      Book book = (Book) this.get(i);\r\n      int isbnNo = book.getISBN();\r\n      String title = print.printFittedString(Book.MAX_TITLE_LENGTH, book.getTitle());\r\n      String author = print.printFittedString(Book.MAX_AUTHOR_NAME_LENGTH, book.getAuthor());\r\n      int publishYear = book.getPublishYear();\r\n      boolean isBorrowed = book.isBorrowed();\r\n\r\n      System.out.printf(\" %02d  | %s | %s | %d | %s \\n\", isbnNo, title, author, publishYear, isBorrowed);\r\n    }\r\n  }\r\n\r\n  public void printBookListByTitle() {\r\n    System.out.printf(\"%s | ISBN | %s | 출판년도 | 대출여부 \\n\",\r\n        print.printFittedString(Book.MAX_TITLE_LENGTH, \"제목\"),\r\n        print.printFittedString(Book.MAX_AUTHOR_NAME_LENGTH, \"저자\"));\r\n\r\n    for (int i = 0; i < this.size(); i++) {\r\n      Book book = (Book) this.get(i);\r\n      int isbnNo = book.getISBN();\r\n      String title = print.printFittedString(Book.MAX_TITLE_LENGTH, book.getTitle());\r\n      String author = print.printFittedString(Book.MAX_AUTHOR_NAME_LENGTH, book.getAuthor());\r\n      int publishYear = book.getPublishYear();\r\n      boolean isBorrowed = book.isBorrowed();\r\n\r\n      System.out.printf(\"%s |  %02d  | %s | %d | %s \\n\", title, isbnNo, author, publishYear, isBorrowed);\r\n\r\n    }\r\n  }\r\n}\r\n
+===================================================================
+diff --git a/app/src/main/java/bitcamp/project3/util/BookList.java b/app/src/main/java/bitcamp/project3/util/BookList.java
+--- a/app/src/main/java/bitcamp/project3/util/BookList.java	
++++ b/app/src/main/java/bitcamp/project3/util/BookList.java	
+@@ -36,7 +36,7 @@
+       String title = print.printFittedString(Book.MAX_TITLE_LENGTH, book.getTitle());
+       String author = print.printFittedString(Book.MAX_AUTHOR_NAME_LENGTH, book.getAuthor());
+       int publishYear = book.getPublishYear();
+-      boolean isBorrowed = book.isBorrowed();
++      String isBorrowed = book.isBorrowed() ? "yes" : "no";
+ 
+       System.out.printf(" %02d  | %s | %s | %d | %s \n", isbnNo, title, author, publishYear, isBorrowed);
+     }
+@@ -53,10 +53,10 @@
+       String title = print.printFittedString(Book.MAX_TITLE_LENGTH, book.getTitle());
+       String author = print.printFittedString(Book.MAX_AUTHOR_NAME_LENGTH, book.getAuthor());
+       int publishYear = book.getPublishYear();
+-      boolean isBorrowed = book.isBorrowed();
++      String isBorrowed = book.isBorrowed() ? "yes" : "no";
++
+ 
+       System.out.printf("%s |  %02d  | %s | %d | %s \n", title, isbnNo, author, publishYear, isBorrowed);
+-
+     }
+   }
+ }
